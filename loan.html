@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>লোন আবেদন - Naagad Loan</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, sans-serif; }
+        body { 
+            background: #f1f5f9; 
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+        .screen-container {
+            width: 100%;
+            max-width: 450px;
+            background: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 0 20px rgba(0,0,0,0.06);
+        }
+        .top-accent {
+            height: 16px;
+            background: linear-gradient(90deg, #ff4e00, #ff8c00);
+            width: 100%;
+        }
+        .header-title-box {
+            padding: 25px 20px 10px;
+            text-align: center;
+        }
+        .header-title-box h2 {
+            font-size: 22px;
+            color: #1e293b;
+            margin-bottom: 5px;
+        }
+        .header-title-box p {
+            font-size: 13px;
+            color: #64748b;
+        }
+        .form-body {
+            padding: 20px;
+            flex-grow: 1;
+        }
+        .security-badge {
+            background: #eafbf1;
+            border: 1px solid #b7ebd0;
+            color: #12793e;
+            padding: 12px 14px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 22px;
+        }
+        .input-group { margin-bottom: 18px; }
+        .input-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            font-weight: bold;
+            color: #475569;
+            margin-bottom: 8px;
+        }
+        .input-label i { color: #ff6a00; }
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        .field-icon {
+            position: absolute;
+            left: 15px;
+            color: #64748b;
+            font-size: 16px;
+        }
+        .input-field, .select-field {
+            width: 100%;
+            padding: 14px 16px 14px 46px;
+            background: #f8fafc;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 15px;
+            color: #1e293b;
+            outline: none;
+            transition: all 0.2s;
+        }
+        .input-field:focus, .select-field:focus {
+            background: #ffffff;
+            border-color: #ff6a00;
+        }
+        .select-field {
+            appearance: none;
+            -webkit-appearance: none;
+            cursor: pointer;
+        }
+        .chevron-icon {
+            position: absolute;
+            right: 16px;
+            color: #64748b;
+            pointer-events: none;
+            font-size: 13px;
+        }
+        .submit-btn {
+            width: 100%;
+            margin-top: 15px;
+            padding: 15px;
+            background: linear-gradient(90deg, #ff7a00, #ff3400);
+            color: #ffffff;
+            border: none;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255, 68, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+
+<div class="screen-container">
+    <div class="top-accent"></div>
+
+    <div class="header-title-box">
+        <h2>লোন আবেদন ফরম</h2>
+        <p>সঠিক তথ্য দিয়ে নিচের ফরমটি পূরণ করুন</p>
+    </div>
+
+    <div class="form-body">
+        <div class="security-badge">
+            <i class="fa-solid fa-shield-halved"></i>
+            <span>SSL ২৫৬-বিট এনক্রিপশন · আপনার তথ্য সুরক্ষিত</span>
+        </div>
+
+        <!-- অ্যাকশন পাথ রাখা হয়েছে ./summary.html যাতে ৪০৪ না আসে -->
+        <form action="./summary.html" method="GET">
+            <div class="input-group">
+                <label class="input-label"><i class="fa-solid fa-user"></i> সম্পূর্ণ নাম</label>
+                <div class="input-wrapper">
+                    <i class="fa-regular fa-user field-icon"></i>
+                    <input type="text" name="fullname" class="input-field" required placeholder="আপনার নাম লিখুন">
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label class="input-label"><i class="fa-solid fa-phone"></i> মোবাইল নম্বর</label>
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-mobile-screen field-icon"></i>
+                    <input type="tel" name="phone" class="input-field" required placeholder="০১XXXXXXXXX">
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label class="input-label"><i class="fa-solid fa-sack-dollar"></i> লোনের পরিমাণ</label>
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-bangladeshi-taka-sign field-icon"></i>
+                    <select class="select-field" name="amount" required>
+                        <option value="1000">১,০০০ টাকা</option>
+                        <option value="2000">২,০০০ টাকা</option>
+                        <option value="3000">৩,০০০ টাকা</option>
+                        <option value="5000">৫,০০০ টাকা</option>
+                        <option value="10000" selected>১০,০০০ টাকা</option>
+                        <option value="20000">২০,০০০ টাকা</option>
+                        <option value="50000">৫০,০০০ টাকা</option>
+                    </select>
+                    <i class="fa-solid fa-chevron-down chevron-icon"></i>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label class="input-label"><i class="fa-solid fa-calendar-days"></i> পরিশোধের মেয়াদ</label>
+                <div class="input-wrapper">
+                    <i class="fa-regular fa-clock field-icon"></i>
+                    <select class="select-field" name="months" required>
+                        <option value="1">১ মাস</option>
+                        <option value="2">২ মাস</option>
+                        <option value="3" selected>৩ মাস</option>
+                        <option value="6">৬ মাস</option>
+                        <option value="12">১২ মাস</option>
+                    </select>
+                    <i class="fa-solid fa-chevron-down chevron-icon"></i>
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn">
+                <span>পরবর্তী ধাপে যান</span>
+                <i class="fa-solid fa-arrow-right"></i>
+            </button>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>
