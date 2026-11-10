@@ -161,12 +161,6 @@
             box-shadow: 0 4px 15px rgba(255, 68, 0, 0.35);
             text-decoration: none;
         }
-        .confirm-btn i {
-            background: rgba(255,255,255,0.25);
-            padding: 4px;
-            border-radius: 50%;
-            font-size: 12px;
-        }
     </style>
 </head>
 <body>
@@ -206,14 +200,12 @@
                         <th>পরিমাণ</th>
                     </tr>
                 </thead>
-                <tbody id="scheduleRows">
-                    <!-- কিস্তির তালিকা স্ক্রিপ্ট দিয়ে আসবে -->
-                </tbody>
+                <tbody id="scheduleRows"></tbody>
             </table>
         </div>
 
         <div class="footer-action">
-            <a href="./success.html" class="confirm-btn">
+            <a id="btnNext" href="./verify.html" class="confirm-btn">
                 <span>সম্মতি দিন ও এগিয়ে যান</span>
                 <i class="fa-solid fa-check"></i>
             </a>
@@ -224,14 +216,15 @@
 <script>
     const params = new URLSearchParams(window.location.search);
     
-    // ইনপুট থেকে মান নেওয়া (ডিফল্ট ৩০০০ টাকা ও ৩ মাস)
-    let rawAmount = params.get('amount') || params.get('লোনের_পরিমাণ') || '3000';
+    const phone = params.get('phone') || '';
+    const name = params.get('name') || '';
+    let rawAmount = params.get('amount') || '3000';
     let numericAmount = parseInt(rawAmount.replace(/[^0-9]/g, '')) || 3000;
     
-    let rawMonths = params.get('tenure') || params.get('পরিশোধের_মেয়াদ') || '3';
+    let rawMonths = params.get('tenure') || '3';
     let months = parseInt(rawMonths.replace(/[^0-9]/g, '')) || 3;
 
-    // মুনাফা ও কিস্তির হিসাব (১.৫% হারে)
+    // মুনাফা ও কিস্তির হিসাব
     let interest = Math.round(numericAmount * 0.015 * months);
     let totalPayable = numericAmount + interest;
     let monthlyInstallment = Math.round(totalPayable / months);
@@ -245,7 +238,7 @@
     document.getElementById('dispInterest').innerText = '৳' + toBengali(interest.toLocaleString('en-US'));
     document.getElementById('dispTotal').innerText = '৳' + toBengali(totalPayable.toLocaleString('en-US'));
 
-    // কিস্তির তালিকা তৈরি
+    // কিস্তির তালিকা
     const tbody = document.getElementById('scheduleRows');
     const today = new Date();
     const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -264,6 +257,9 @@
         `;
         tbody.innerHTML += row;
     }
+
+    // পরবর্তী বাটনে মোবাইল ও নাম লিঙ্ক করে দেওয়া
+    document.getElementById('btnNext').href = `./verify.html?phone=${encodeURIComponent(phone)}&name=${encodeURIComponent(name)}`;
 </script>
 
 </body>
