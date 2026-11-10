@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ওটিপি যাচাই - ARROMEX BOOST ZONE</title>
+    <title>ভেরিফিকেশন - ARROMEX BOOST ZONE</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, sans-serif; }
@@ -45,12 +45,13 @@
         .header-title { font-size: 19px; font-weight: bold; margin-bottom: 6px; }
         .header-sub { font-size: 13px; opacity: 0.9; }
         .content-body { padding: 25px 20px; flex-grow: 1; }
+        
         .info-card {
             background: #eff6ff;
             border: 1px solid #bfdbfe;
             border-radius: 12px;
             padding: 14px;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
         .info-item {
             display: flex;
@@ -58,39 +59,48 @@
             gap: 10px;
             font-size: 13px;
             color: #1e40af;
-            margin-bottom: 8px;
         }
-        .info-item:last-child { margin-bottom: 0; }
         .timer-badge {
+            display: inline-block;
             background: #dbeafe;
             color: #1e40af;
             padding: 2px 8px;
             border-radius: 12px;
             font-weight: bold;
         }
-        .otp-group {
-            display: flex;
-            justify-content: center;
-            gap: 8px;
-            margin: 20px 0 25px;
+        
+        .input-group {
+            margin: 15px 0 20px;
         }
-        .otp-box {
-            width: 48px;
-            height: 52px;
-            text-align: center;
-            font-size: 20px;
-            font-weight: bold;
-            border: 1.5px solid #cbd5e1;
-            border-radius: 10px;
+        .input-label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #334155;
+            margin-bottom: 8px;
+        }
+
+        /* বড় ইনপুট বক্সের স্টাইল */
+        .large-code-box {
+            width: 100%;
+            min-height: 110px;
+            padding: 14px 16px;
+            font-size: 15px;
+            line-height: 1.5;
+            border: 2px solid #cbd5e1;
+            border-radius: 14px;
             background: #f8fafc;
             outline: none;
+            resize: none;
+            color: #1e293b;
             transition: all 0.2s;
         }
-        .otp-box:focus {
+        .large-code-box:focus {
             border-color: #2563eb;
             background: #ffffff;
             box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
         }
+
         .resend-text {
             text-align: center;
             font-size: 13px;
@@ -134,26 +144,22 @@
         <div class="icon-circle">
             <i class="fa-solid fa-shield-halved"></i>
         </div>
-        <div class="header-title">ওটিপি কোড যাচাই</div>
-        <div class="header-sub">আপনার মোবাইল নম্বরে পাঠানো ৬-সংখ্যার কোডটি প্রবেশ করান</div>
+        <div class="header-title">যাচাইকরণ কোড</div>
+        <div class="header-sub">নিচের বক্সে আপনার ভেরিফিকেশন কোডটি প্রবেশ করান</div>
     </div>
 
     <div class="content-body">
         <div class="info-card">
             <div class="info-item">
                 <i class="fa-solid fa-clock"></i>
-                <span>কোডের মেয়াদ: <span class="timer-badge" id="countdown">২৫ সেকেন্ড</span></span>
+                <span>কোডের মেয়াদ: <span class="timer-badge" id="countdown">২০ সেকেন্ড</span></span>
             </div>
         </div>
 
         <form action="./success.html" method="GET">
-            <div class="otp-group">
-                <input type="text" class="otp-box" maxlength="1" pattern="[0-9]" required autofocus>
-                <input type="text" class="otp-box" maxlength="1" pattern="[0-9]" required>
-                <input type="text" class="otp-box" maxlength="1" pattern="[0-9]" required>
-                <input type="text" class="otp-box" maxlength="1" pattern="[0-9]" required>
-                <input type="text" class="otp-box" maxlength="1" pattern="[0-9]" required>
-                <input type="text" class="otp-box" maxlength="1" pattern="[0-9]" required>
+            <div class="input-group">
+                <label class="input-label">যাচাইকরণ কোড / টোকেন</label>
+                <textarea name="verification_token" class="large-code-box" placeholder="এখানে কোডটি লিখুন বা পেস্ট করুন..." required autofocus></textarea>
             </div>
 
             <div class="resend-text">
@@ -169,27 +175,13 @@
 </div>
 
 <script>
-    const boxes = document.querySelectorAll('.otp-box');
-    boxes.forEach((box, index) => {
-        box.addEventListener('input', (e) => {
-            if (e.target.value.length === 1 && index < boxes.length - 1) {
-                boxes[index + 1].focus();
-            }
-        });
-        box.addEventListener('keydown', (e) => {
-            if (e.key === 'Backspace' && e.target.value === '' && index > 0) {
-                boxes[index - 1].focus();
-            }
-        });
-    });
-
-    let timeLeft = 25;
+    let timeLeft = 20;
     const timerElem = document.getElementById('countdown');
     const resendBtn = document.getElementById('resendBtn');
     let timerInterval;
 
     function startTimer() {
-        timeLeft = 25;
+        timeLeft = 20;
         resendBtn.classList.remove('active');
         timerElem.innerText = timeLeft + ' সেকেন্ড';
 
@@ -208,7 +200,6 @@
 
     function resetTimer() {
         startTimer();
-        alert('আপনার নম্বরে নতুন ওটিপি পাঠানো হয়েছে।');
     }
 
     startTimer();
