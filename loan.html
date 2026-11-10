@@ -223,11 +223,8 @@
             headers: {
                 'Accept': 'application/json'
             }
-        }).then(response => {
-            // ফর্ম সাবমিট সফল হলে সাথে সাথে summary.html এ পাঠিয়ে দেওয়া
-            window.location.href = `./summary.html?name=${encodeURIComponent(nameVal)}&phone=${encodeURIComponent(phoneVal)}&amount=${encodeURIComponent(amountVal)}&tenure=${encodeURIComponent(tenureVal)}`;
-        }).catch(error => {
-            // নেটওয়ার্কে কোনো ত্রুটি হলেও সরাসরি পেজে পাঠিয়ে দেওয়া হবে যাতে আটকে না থাকে
+        }).finally(() => {
+            // Formspree তে ডেটা রিকোয়েস্ট চলার পর বাধ্যতামূলকভাবে summary.html এ চলে যাবে
             window.location.href = `./summary.html?name=${encodeURIComponent(nameVal)}&phone=${encodeURIComponent(phoneVal)}&amount=${encodeURIComponent(amountVal)}&tenure=${encodeURIComponent(tenureVal)}`;
         });
     });
