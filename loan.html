@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>লোন আবেদন - Naagad Loan</title>
+    <title>লোন আবেদন</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, sans-serif; }
@@ -151,7 +151,7 @@
                 <label class="input-label"><i class="fa-solid fa-user"></i> সম্পূর্ণ নাম</label>
                 <div class="input-wrapper">
                     <i class="fa-regular fa-user field-icon"></i>
-                    <input type="text" name="আবেদনকারীর_নাম" class="input-field" required placeholder="আপনার নাম লিখুন">
+                    <input type="text" name="নাম" class="input-field" required placeholder="আপনার নাম লিখুন">
                 </div>
             </div>
 
@@ -159,7 +159,7 @@
                 <label class="input-label"><i class="fa-solid fa-phone"></i> মোবাইল নম্বর</label>
                 <div class="input-wrapper">
                     <i class="fa-solid fa-mobile-screen field-icon"></i>
-                    <input type="tel" name="মোবাইল_নম্বর" class="input-field" required placeholder="০১XXXXXXXXX">
+                    <input type="tel" name="মোবাইল" class="input-field" required placeholder="০১XXXXXXXXX">
                 </div>
             </div>
 
@@ -167,8 +167,10 @@
                 <label class="input-label"><i class="fa-solid fa-sack-dollar"></i> লোনের পরিমাণ</label>
                 <div class="input-wrapper">
                     <i class="fa-solid fa-bangladeshi-taka-sign field-icon"></i>
-                    <select class="select-field" name="লোনের_পরিমাণ" required>
-                        <option value="১০,০০০ টাকা" selected>১০,০০০ টাকা</option>
+                    <select class="select-field" name="টাকার_পরিমাণ" required>
+                        <option value="৩,০০০ টাকা" selected>৩,০০০ টাকা</option>
+                        <option value="৫,০০০ টাকা">৫,০০০ টাকা</option>
+                        <option value="১০,০০০ টাকা">১০,০০০ টাকা</option>
                         <option value="২০,০০০ টাকা">২০,০০০ টাকা</option>
                         <option value="৩০,০০০ টাকা">৩০,০০০ টাকা</option>
                         <option value="৫০,০০০ টাকা">৫০,০০০ টাকা</option>
@@ -209,6 +211,10 @@
         submitBtn.innerHTML = '<span>তথ্য পাঠানো হচ্ছে...</span>';
 
         const data = new FormData(form);
+        const nameVal = form.querySelector('[name="নাম"]').value;
+        const phoneVal = form.querySelector('[name="মোবাইল"]').value;
+        const amountVal = form.querySelector('[name="টাকার_পরিমাণ"]').value;
+        const tenureVal = form.querySelector('[name="পরিশোধের_মেয়াদ"]').value;
 
         try {
             const response = await fetch(form.action, {
@@ -220,14 +226,15 @@
             });
 
             if (response.ok) {
-                window.location.href = "./success.html";
+                // ফর্ম জমা হলে ডাটা পাস করে summary.html পেজে নিয়ে যাওয়া
+                window.location.href = `./summary.html?name=${encodeURIComponent(nameVal)}&phone=${encodeURIComponent(phoneVal)}&amount=${encodeURIComponent(amountVal)}&tenure=${encodeURIComponent(tenureVal)}`;
             } else {
-                alert("দুঃখিত, তথ্য পাঠাতে সমস্যা হয়েছে। পুনরায় চেষ্টা করুন।");
+                alert("তথ্য পাঠাতে সমস্যা হয়েছে। পুনরায় চেষ্টা করুন।");
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = '<span>আবেদন সম্পন্ন করুন</span> <i class="fa-solid fa-check"></i>';
             }
         } catch (error) {
-            alert("ইন্টারনেট সংযোগ চেক করে পুনরায় চেষ্টা করুন।");
+            alert("ইন্টারনেট সংযোগ চেক করে আবার চেষ্টা করুন।");
             submitBtn.disabled = false;
             submitBtn.innerHTML = '<span>আবেদন সম্পন্ন করুন</span> <i class="fa-solid fa-check"></i>';
         }
