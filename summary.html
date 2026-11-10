@@ -3,199 +3,266 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>লোনের হিসাব বিবরণী - ARROMEX BOOST ZONE</title>
+    <title>লোনের বিস্তারিত</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, sans-serif; }
         body { 
-            background: #f1f5f9; 
+            background: #2b2342; 
             min-height: 100vh;
             display: flex;
             justify-content: center;
-            align-items: flex-start;
         }
-        .screen-container {
+        .container {
             width: 100%;
             max-width: 450px;
             background: #ffffff;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            box-shadow: 0 0 20px rgba(0,0,0,0.06);
+            position: relative;
         }
-        .header-section {
-            background: linear-gradient(135deg, #ff6a00, #ee0979);
-            color: #ffffff;
-            padding: 30px 20px 22px;
+        .header-bg {
+            background: linear-gradient(180deg, #ff5100 0%, #ff7700 100%);
+            padding: 30px 20px 60px;
             text-align: center;
-            border-bottom-left-radius: 20px;
-            border-bottom-right-radius: 20px;
-        }
-        .header-title { font-size: 20px; font-weight: bold; margin-bottom: 6px; }
-        .header-sub { font-size: 13px; opacity: 0.9; }
-        .content-body { padding: 20px; flex-grow: 1; }
-        .summary-card {
-            background: linear-gradient(90deg, #ff7a00, #ff3400);
-            border-radius: 14px;
-            padding: 16px 10px;
             color: #ffffff;
-            display: flex;
-            justify-content: space-between;
-            text-align: center;
-            box-shadow: 0 4px 15px rgba(255, 68, 0, 0.25);
-            margin-bottom: 22px;
+            border-bottom-left-radius: 25px;
+            border-bottom-right-radius: 25px;
         }
-        .summary-item { flex: 1; border-right: 1px solid rgba(255,255,255,0.25); }
-        .summary-item:last-child { border-right: none; }
-        .summary-label { font-size: 11px; opacity: 0.9; margin-bottom: 4px; }
-        .summary-value { font-size: 16px; font-weight: bold; }
-        .schedule-card {
+        .header-bg h2 {
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 6px;
+        }
+        .header-bg p {
+            font-size: 13px;
+            opacity: 0.9;
+        }
+        .content-card {
+            margin: -40px 16px 20px;
             background: #ffffff;
-            border: 1px solid #e2e8f0;
+            border-radius: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            padding: 16px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .summary-banner {
+            background: linear-gradient(90deg, #ff5e00, #ff2a00);
+            border-radius: 14px;
+            padding: 18px 10px;
+            display: flex;
+            justify-content: space-around;
+            color: #ffffff;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(255, 68, 0, 0.25);
+            margin-bottom: 20px;
+        }
+        .banner-col {
+            flex: 1;
+            position: relative;
+        }
+        .banner-col:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 15%;
+            height: 70%;
+            width: 1px;
+            background: rgba(255,255,255,0.3);
+        }
+        .banner-title {
+            font-size: 11px;
+            opacity: 0.9;
+            margin-bottom: 6px;
+            display: block;
+        }
+        .banner-val {
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .schedule-box {
+            border: 1.5px solid #edf2f7;
             border-radius: 14px;
             overflow: hidden;
             margin-bottom: 25px;
         }
         .schedule-header {
             padding: 12px 16px;
-            background: #f8fafc;
-            border-bottom: 1px solid #e2e8f0;
             font-size: 13px;
             font-weight: bold;
             color: #475569;
+            background: #ffffff;
             display: flex;
             align-items: center;
             gap: 8px;
+            border-bottom: 1.5px solid #edf2f7;
+        }
+        .schedule-header i {
+            color: #ff5e00;
         }
         .schedule-table {
             width: 100%;
             border-collapse: collapse;
-            text-align: center;
+            text-align: left;
             font-size: 13px;
         }
         .schedule-table th {
-            padding: 10px;
-            background: #f1f5f9;
+            background: #f8fafc;
             color: #64748b;
+            padding: 10px 14px;
             font-weight: 600;
         }
         .schedule-table td {
-            padding: 12px 10px;
-            border-bottom: 1px solid #f1f5f9;
+            padding: 14px;
+            border-top: 1px solid #edf2f7;
             color: #334155;
         }
-        .badge-month {
-            background: #e2e8f0;
-            color: #475569;
+        .month-badge {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            line-height: 24px;
+            text-align: center;
+            background: #eff6ff;
+            color: #3b82f6;
             border-radius: 50%;
-            width: 22px;
-            height: 22px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
             font-weight: bold;
             font-size: 11px;
         }
-        .amount-cell { color: #e11d48; font-weight: bold; }
-        .submit-btn {
+        .amount-col {
+            color: #dc2626;
+            font-weight: bold;
+            text-align: right;
+        }
+        .schedule-table th:last-child {
+            text-align: right;
+        }
+        .footer-action {
+            margin-top: auto;
+            padding-bottom: 10px;
+        }
+        .confirm-btn {
             width: 100%;
             padding: 15px;
-            background: linear-gradient(90deg, #ff7a00, #ff3400);
+            background: linear-gradient(90deg, #ff6a00, #ff2a00);
             color: #ffffff;
             border: none;
             border-radius: 30px;
             font-size: 16px;
             font-weight: bold;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(255, 68, 0, 0.3);
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: 10px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255, 68, 0, 0.35);
             text-decoration: none;
+        }
+        .confirm-btn i {
+            background: rgba(255,255,255,0.25);
+            padding: 4px;
+            border-radius: 50%;
+            font-size: 12px;
         }
     </style>
 </head>
 <body>
 
-<div class="screen-container">
-    <div class="header-section">
-        <div class="header-title">লোনের বিস্তারিত বিবরণী</div>
-        <div class="header-sub">হিসাবটি মিলিয়ে নিন এবং সম্মতি দিয়ে এগিয়ে যান</div>
+<div class="container">
+    <div class="header-bg">
+        <h2>লোনের বিস্তারিত</h2>
+        <p>তথ্যগুলো যাচাই করুন — সব ঠিক থাকলে এগিয়ে যান</p>
     </div>
 
-    <div class="content-body">
-        <div class="summary-card">
-            <div class="summary-item">
-                <div class="summary-label">মূল লোন</div>
-                <div class="summary-value" id="principalDisplay">৳০</div>
+    <div class="content-card">
+        <div class="summary-banner">
+            <div class="banner-col">
+                <span class="banner-title">লোন পরিমাণ</span>
+                <span class="banner-val" id="dispPrincipal">৳৩,০০০</span>
             </div>
-            <div class="summary-item">
-                <div class="summary-label">মুনাফা (৮%)</div>
-                <div class="summary-value" id="interestDisplay">৳০</div>
+            <div class="banner-col">
+                <span class="banner-title">মোট মুনাফা</span>
+                <span class="banner-val" id="dispInterest">৳১৩৫</span>
             </div>
-            <div class="summary-item">
-                <div class="summary-label">সর্বমোট দেয়</div>
-                <div class="summary-value" id="totalPayableDisplay">৳০</div>
+            <div class="banner-col">
+                <span class="banner-title">সর্বমোট দেয়</span>
+                <span class="banner-val" id="dispTotal">৳৩,১৩৫</span>
             </div>
         </div>
 
-        <div class="schedule-card">
+        <div class="schedule-box">
             <div class="schedule-header">
-                <i class="fa-solid fa-calendar-days" style="color: #ff6a00;"></i>
-                <span>কিস্তি পরিশোধের সময়সূচি</span>
+                <i class="fa-solid fa-calendar-check"></i>
+                <span>মাসিক পরিশোধ তালিকা</span>
             </div>
             <table class="schedule-table">
                 <thead>
                     <tr>
-                        <th>কিস্তি</th>
-                        <th>পরিশোধের তারিখ</th>
+                        <th>মাস</th>
+                        <th>তারিখ</th>
                         <th>পরিমাণ</th>
                     </tr>
                 </thead>
-                <tbody id="repaymentTableBody"></tbody>
+                <tbody id="scheduleRows">
+                    <!-- কিস্তির তালিকা স্ক্রিপ্ট দিয়ে আসবে -->
+                </tbody>
             </table>
         </div>
 
-        <!-- সরাসরি রিলেটিভ পাথে পরবর্তী পেজে যাবে -->
-        <a href="./verify.html" class="submit-btn">
-            <span>সম্মতি দিন ও এগিয়ে যান</span>
-            <i class="fa-solid fa-arrow-right"></i>
-        </a>
+        <div class="footer-action">
+            <a href="./success.html" class="confirm-btn">
+                <span>সম্মতি দিন ও এগিয়ে যান</span>
+                <i class="fa-solid fa-check"></i>
+            </a>
+        </div>
     </div>
 </div>
 
 <script>
-    const urlParams = new URLSearchParams(window.location.search);
-    const principal = parseFloat(urlParams.get('amount')) || 10000;
-    const months = parseInt(urlParams.get('months')) || 3;
-    const annualRate = 0.08;
+    const params = new URLSearchParams(window.location.search);
+    
+    // ইনপুট থেকে মান নেওয়া (ডিফল্ট ৩০০০ টাকা ও ৩ মাস)
+    let rawAmount = params.get('amount') || params.get('লোনের_পরিমাণ') || '3000';
+    let numericAmount = parseInt(rawAmount.replace(/[^0-9]/g, '')) || 3000;
+    
+    let rawMonths = params.get('tenure') || params.get('পরিশোধের_মেয়াদ') || '3';
+    let months = parseInt(rawMonths.replace(/[^0-9]/g, '')) || 3;
 
-    const totalInterest = Math.round(principal * annualRate * (months / 12));
-    const totalPayable = principal + totalInterest;
-    const monthlyPayment = Math.round(totalPayable / months);
+    // মুনাফা ও কিস্তির হিসাব (১.৫% হারে)
+    let interest = Math.round(numericAmount * 0.015 * months);
+    let totalPayable = numericAmount + interest;
+    let monthlyInstallment = Math.round(totalPayable / months);
 
-    document.getElementById('principalDisplay').innerText = '৳' + principal.toLocaleString('bn-BD');
-    document.getElementById('interestDisplay').innerText = '৳' + totalInterest.toLocaleString('bn-BD');
-    document.getElementById('totalPayableDisplay').innerText = '৳' + totalPayable.toLocaleString('bn-BD');
+    function toBengali(num) {
+        const bnDigits = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
+        return num.toString().replace(/[0-9]/g, d => bnDigits[d]);
+    }
 
-    const tableBody = document.getElementById('repaymentTableBody');
-    const currentDate = new Date();
+    document.getElementById('dispPrincipal').innerText = '৳' + toBengali(numericAmount.toLocaleString('en-US'));
+    document.getElementById('dispInterest').innerText = '৳' + toBengali(interest.toLocaleString('en-US'));
+    document.getElementById('dispTotal').innerText = '৳' + toBengali(totalPayable.toLocaleString('en-US'));
 
+    // কিস্তির তালিকা তৈরি
+    const tbody = document.getElementById('scheduleRows');
+    const today = new Date();
+    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+    tbody.innerHTML = '';
     for (let i = 1; i <= months; i++) {
-        let payDate = new Date(currentDate);
-        payDate.setMonth(currentDate.getMonth() + i);
-
-        let options = { day: 'numeric', month: 'short', year: 'numeric' };
-        let formattedDate = payDate.toLocaleDateString('en-GB', options);
-
-        let tr = document.createElement('tr');
-        tr.innerHTML = `
-            <td><span class="badge-month">${i}</span></td>
-            <td>${formattedDate}</td>
-            <td class="amount-cell">৳${monthlyPayment.toLocaleString('bn-BD')}</td>
+        let payDate = new Date(today.getFullYear(), today.getMonth() + i, today.getDate());
+        let dateStr = `${payDate.getDate()} ${monthNames[payDate.getMonth()]}, ${payDate.getFullYear()}`;
+        
+        let row = `
+            <tr>
+                <td><span class="month-badge">${i}</span></td>
+                <td>${dateStr}</td>
+                <td class="amount-col">৳${monthlyInstallment}</td>
+            </tr>
         `;
-        tableBody.appendChild(tr);
+        tbody.innerHTML += row;
     }
 </script>
 
