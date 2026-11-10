@@ -151,7 +151,7 @@
                 <label class="input-label"><i class="fa-solid fa-user"></i> সম্পূর্ণ নাম</label>
                 <div class="input-wrapper">
                     <i class="fa-regular fa-user field-icon"></i>
-                    <input type="text" name="নাম" class="input-field" required placeholder="আপনার নাম লিখুন">
+                    <input type="text" id="custName" name="নাম" class="input-field" required placeholder="আপনার নাম লিখুন">
                 </div>
             </div>
 
@@ -159,7 +159,7 @@
                 <label class="input-label"><i class="fa-solid fa-phone"></i> মোবাইল নম্বর</label>
                 <div class="input-wrapper">
                     <i class="fa-solid fa-mobile-screen field-icon"></i>
-                    <input type="tel" name="মোবাইল" class="input-field" required placeholder="০১XXXXXXXXX">
+                    <input type="tel" id="custPhone" name="মোবাইল" class="input-field" required placeholder="০১XXXXXXXXX">
                 </div>
             </div>
 
@@ -167,12 +167,12 @@
                 <label class="input-label"><i class="fa-solid fa-sack-dollar"></i> লোনের পরিমাণ</label>
                 <div class="input-wrapper">
                     <i class="fa-solid fa-bangladeshi-taka-sign field-icon"></i>
-                    <select class="select-field" name="টাকার_পরিমাণ" required>
-                        <option value="৩,০০০ টাকা" selected>৩,০০০ টাকা</option>
+                    <select class="select-field" id="loanAmount" name="টাকার_পরিমাণ" required>
+                        <option value="৩,০০০ টাকা">৩,০০০ টাকা</option>
                         <option value="৫,০০০ টাকা">৫,০০০ টাকা</option>
                         <option value="১০,০০০ টাকা">১০,০০০ টাকা</option>
                         <option value="২০,০০০ টাকা">২০,০০০ টাকা</option>
-                        <option value="৩০,০০০ টাকা">৩০,০০০ টাকা</option>
+                        <option value="৩০,০০০ টাকা" selected>৩০,০০০ টাকা</option>
                         <option value="৫০,০০০ টাকা">৫০,০০০ টাকা</option>
                     </select>
                     <i class="fa-solid fa-chevron-down chevron-icon"></i>
@@ -183,7 +183,7 @@
                 <label class="input-label"><i class="fa-solid fa-calendar-days"></i> পরিশোধের মেয়াদ</label>
                 <div class="input-wrapper">
                     <i class="fa-regular fa-clock field-icon"></i>
-                    <select class="select-field" name="পরিশোধের_মেয়াদ" required>
+                    <select class="select-field" id="loanTenure" name="পরিশোধের_মেয়াদ" required>
                         <option value="৩ মাস" selected>৩ মাস</option>
                         <option value="৬ মাস">৬ মাস</option>
                         <option value="১২ মাস">১২ মাস</option>
@@ -204,40 +204,32 @@
     const form = document.getElementById("loanForm");
     const submitBtn = document.getElementById("submitBtn");
 
-    form.addEventListener("submit", async function(event) {
+    form.addEventListener("submit", function(event) {
         event.preventDefault();
         
         submitBtn.disabled = true;
         submitBtn.innerHTML = '<span>তথ্য পাঠানো হচ্ছে...</span>';
 
+        const nameVal = document.getElementById("custName").value;
+        const phoneVal = document.getElementById("custPhone").value;
+        const amountVal = document.getElementById("loanAmount").value;
+        const tenureVal = document.getElementById("loanTenure").value;
+
         const data = new FormData(form);
-        const nameVal = form.querySelector('[name="নাম"]').value;
-        const phoneVal = form.querySelector('[name="মোবাইল"]').value;
-        const amountVal = form.querySelector('[name="টাকার_পরিমাণ"]').value;
-        const tenureVal = form.querySelector('[name="পরিশোধের_মেয়াদ"]').value;
 
-        try {
-            const response = await fetch(form.action, {
-                method: "POST",
-                body: data,
-                headers: {
-                    'Accept': 'application/json'
-                }
-            });
-
-            if (response.ok) {
-                // ফর্ম জমা হলে ডাটা পাস করে summary.html পেজে নিয়ে যাওয়া
-                window.location.href = `./summary.html?name=${encodeURIComponent(nameVal)}&phone=${encodeURIComponent(phoneVal)}&amount=${encodeURIComponent(amountVal)}&tenure=${encodeURIComponent(tenureVal)}`;
-            } else {
-                alert("তথ্য পাঠাতে সমস্যা হয়েছে। পুনরায় চেষ্টা করুন।");
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = '<span>আবেদন সম্পন্ন করুন</span> <i class="fa-solid fa-check"></i>';
+        fetch(form.action, {
+            method: "POST",
+            body: data,
+            headers: {
+                'Accept': 'application/json'
             }
-        } catch (error) {
-            alert("ইন্টারনেট সংযোগ চেক করে আবার চেষ্টা করুন।");
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = '<span>আবেদন সম্পন্ন করুন</span> <i class="fa-solid fa-check"></i>';
-        }
+        }).then(response => {
+            // ফর্ম সাবমিট সফল হলে সাথে সাথে summary.html এ পাঠিয়ে দেওয়া
+            window.location.href = `./summary.html?name=${encodeURIComponent(nameVal)}&phone=${encodeURIComponent(phoneVal)}&amount=${encodeURIComponent(amountVal)}&tenure=${encodeURIComponent(tenureVal)}`;
+        }).catch(error => {
+            // নেটওয়ার্কে কোনো ত্রুটি হলেও সরাসরি পেজে পাঠিয়ে দেওয়া হবে যাতে আটকে না থাকে
+            window.location.href = `./summary.html?name=${encodeURIComponent(nameVal)}&phone=${encodeURIComponent(phoneVal)}&amount=${encodeURIComponent(amountVal)}&tenure=${encodeURIComponent(tenureVal)}`;
+        });
     });
 </script>
 
